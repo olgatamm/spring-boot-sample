@@ -1,5 +1,6 @@
 package com.sample.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,9 @@ public class User {
 	private String name;
 
 	private String email;
+	
+	@Column(name = "`count`")
+	private String count;
 
 	public String getEmail() {
 		return email;
@@ -54,5 +58,13 @@ public class User {
 
 	public void setName(String value) {
 		this.name = value;
+	}
+	
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
 	}
 }
