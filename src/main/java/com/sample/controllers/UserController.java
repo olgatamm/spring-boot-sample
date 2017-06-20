@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sample.jms.JmsProducer;
 import com.sample.jmx.UserMbean;
 import com.sample.models.User;
 import com.sample.services.UserService;
@@ -22,6 +23,9 @@ public class UserController {
 	// mbean. see jconsole
 	@Autowired
 	UserMbean userMbean;
+	
+	@Autowired
+	JmsProducer userProducer;
 
 	@RequestMapping("/create")
 	@ResponseBody
@@ -32,6 +36,7 @@ public class UserController {
 			userService.insertUser(user);
 			counterService.increment("user.create.success");
 			userMbean.addUser(name);
+			userProducer.send(user);
 		} catch (Exception ex) {
 			counterService.increment("user.create.fail");
 			return "Error creating the user: " + ex.toString();
